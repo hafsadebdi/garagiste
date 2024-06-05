@@ -21,8 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,6 +32,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_email_verified'
     ];
 
     /**
@@ -41,5 +43,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_email_verified'=>'datetime'
     ];
+
+        public function reparations(){
+            return $this->hasMany(Reparation::class,'mecanic_id') ;
+        }
+
+        public function clients(){
+            return $this->hasMany(Client::class,'user_id');
+        }
+        public function mecanicien()
+        {
+            return $this->hasOne(Mecanicien::class, 'user_id');
+        }
 }
